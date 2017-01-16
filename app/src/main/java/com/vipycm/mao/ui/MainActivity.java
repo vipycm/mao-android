@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.vipycm.commons.MaoLog;
-import com.vipycm.mao.ui.MainFragment.OnMainFragmentInteraction;
 import com.vipycm.mao.R;
+import com.vipycm.mao.ui.MainFragment.OnMainFragmentInteraction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +79,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (helloJniItem == item) {
             fragment = new HelloJniFragment();
 
+        } else if (pmItem == item) {
+            fragment = new PmFragment();
+
         }
 
         if (fragment != null) {
@@ -97,11 +100,13 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     //定义功能项
     static final FuncItem dbItem = new FuncItem("db");
     static final FuncItem helloJniItem = new FuncItem("hello jni");
+    static final FuncItem pmItem = new FuncItem("pm");
 
     //将功能项加入到FUNC_ITEMS
     static {
         FUNC_ITEMS.add(dbItem);
         FUNC_ITEMS.add(helloJniItem);
+        FUNC_ITEMS.add(pmItem);
     }
 
     public static class FuncItem {

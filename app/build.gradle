@@ -1,5 +1,12 @@
 apply plugin: 'com.android.application'
 
+String SDK_DIR = System.getenv("ANDROID_HOME")
+if(SDK_DIR == null) {
+    Properties props = new Properties()
+    props.load(new FileInputStream(project.rootProject.file("local.properties")))
+    SDK_DIR = props.get('sdk.dir');
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -38,4 +45,5 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
+    provided files("${SDK_DIR}/platforms/android-25/data/layoutlib.jar")
 }
