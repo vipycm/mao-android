@@ -1,6 +1,13 @@
 package com.vipycm.commons;
 
-import android.util.Log;
+import android.content.Context;
+
+import com.tencent.mars.xlog.Log;
+import com.tencent.mars.xlog.Xlog;
+import com.vipycm.mao.BuildConfig;
+import com.vipycm.mao.MaoApp;
+
+import java.io.File;
 
 /**
  * 日志工具
@@ -47,5 +54,30 @@ public class MaoLog {
 
     public void e(int msg) {
         Log.e(mTag, String.valueOf(msg));
+    }
+
+    public static synchronized void initLog() {
+        System.loadLibrary("stlport_shared");
+        System.loadLibrary("marsxlog");
+
+        int logLevel = BuildConfig.DEBUG ? Xlog.LEVEL_DEBUG : Xlog.LEVEL_INFO;
+        Context context = MaoApp.getContext();
+        File logDir = context.getExternalFilesDir("log");
+        if (logDir == null) {
+            logDir = new File(context.getFilesDir(), "log");
+        }
+        String logPath = logDir.getAbsolutePath();
+        String logName = "log";
+        Xlog.appenderOpen(logLevel, Xlog.AppednerModeAsync, "", logPath, logName);
+        Xlog.setConsoleLogOpen(BuildConfig.DEBUG);
+        Log.setLogImp(new Xlog());
+    }
+
+    public static synchronized void unInitLog() {
+        Log.appenderClose();
+    }
+
+    public static void flushLog(boolean isSync) {
+        Log.appenderFlush(isSync);
     }
 }

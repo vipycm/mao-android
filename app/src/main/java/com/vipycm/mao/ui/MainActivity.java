@@ -64,6 +64,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     @Override
     protected void onDestroy() {
         log.i("onDestroy");
+        MaoLog.flushLog(false);
         super.onDestroy();
     }
 

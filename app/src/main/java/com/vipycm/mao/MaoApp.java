@@ -19,12 +19,14 @@ public class MaoApp extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getBaseContext();
+        MaoLog.initLog();
         log.d("onCreate");
     }
 
     @Override
     public void onTerminate() {
         log.d("onTerminate");
+        MaoLog.unInitLog();
         super.onTerminate();
     }
 
