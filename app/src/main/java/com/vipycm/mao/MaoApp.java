@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.vipycm.commons.MaoLog;
+import com.vipycm.mao.hack.MaoHack;
 
 /**
  * MaoApp
@@ -21,6 +22,12 @@ public class MaoApp extends Application {
         mContext = getBaseContext();
         MaoLog.initLog();
         log.d("onCreate");
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MaoHack.hackH();
     }
 
     @Override
