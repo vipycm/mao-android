@@ -83,6 +83,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (pmItem == item) {
             fragment = new PmFragment();
 
+        } else if (dsItem == item) {
+            fragment = new DsFragment();
+
         }
 
         if (fragment != null) {
@@ -102,12 +105,14 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem dbItem = new FuncItem("db");
     static final FuncItem helloJniItem = new FuncItem("hello jni");
     static final FuncItem pmItem = new FuncItem("pm");
+    static final FuncItem dsItem = new FuncItem("DS");
 
     //将功能项加入到FUNC_ITEMS
     static {
         FUNC_ITEMS.add(dbItem);
         FUNC_ITEMS.add(helloJniItem);
         FUNC_ITEMS.add(pmItem);
+        FUNC_ITEMS.add(dsItem);
     }
 
     public static class FuncItem {
