@@ -24,13 +24,12 @@ import java.lang.reflect.Method;
  * PmFragment
  * Created by mao on 2017/1/16.
  */
-public class PmFragment extends Fragment implements View.OnClickListener {
+public class PmFragment extends MaoFragment{
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 
     Handler mHandler = null;
     TextView txt_content;
-    Button btn_ok;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,8 +37,6 @@ public class PmFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_sample, container, false);
         txt_content = (TextView) rootView.findViewById(R.id.txt_content);
         txt_content.setText(this.getClass().getSimpleName());
-        btn_ok = (Button) rootView.findViewById(R.id.btn_ok);
-        btn_ok.setOnClickListener(this);
         mHandler = new Handler();
         return rootView;
     }
@@ -51,7 +48,7 @@ public class PmFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onMaoClick(View v) {
         switch (v.getId()) {
             case R.id.btn_ok:
                 getPackageInfo(getContext(), getContext().getPackageName());

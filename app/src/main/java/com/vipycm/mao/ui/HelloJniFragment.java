@@ -16,12 +16,11 @@ import com.vipycm.mao.jni.HelloJni;
  * HelloJniFragment
  * Created by mao on 2016/12/29.
  */
-public class HelloJniFragment extends Fragment implements View.OnClickListener {
+public class HelloJniFragment extends MaoFragment{
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 
     TextView txt_content;
-    Button btn_ok;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,8 +28,6 @@ public class HelloJniFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_sample, container, false);
         txt_content = (TextView) rootView.findViewById(R.id.txt_content);
         txt_content.setText(this.getClass().getSimpleName());
-        btn_ok = (Button) rootView.findViewById(R.id.btn_ok);
-        btn_ok.setOnClickListener(this);
         return rootView;
     }
 
@@ -42,7 +39,7 @@ public class HelloJniFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onMaoClick(View v) {
         switch (v.getId()) {
             case R.id.btn_ok:
                 txt_content.setText(HelloJni.stringFromJNI());

@@ -1,9 +1,10 @@
 package com.vipycm.mao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.R;
@@ -20,6 +21,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
     private static final List<FuncItem> FUNC_ITEMS = new ArrayList<>();
+    private MaoFragment mCurrentFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +71,26 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        log.i("onActivityResult requestCode:" + requestCode + " resultCode:" + resultCode);
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mCurrentFragment != null) {
+            mCurrentFragment.onMaoActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public void onMaoClick(View v) {
+        if (mCurrentFragment != null) {
+            mCurrentFragment.onMaoClick(v);
+        }
+    }
+
+    @Override
     public void onFuncItemClicked(FuncItem item) {
         log.i("onFuncItemClicked " + item.name);
 
         //根据item决定跳转到哪个Fragment
-        Fragment fragment = null;
+        MaoFragment fragment = null;
         if (dbItem == item) {
             fragment = new DbFragment();
 
@@ -86,6 +103,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (dsItem == item) {
             fragment = new DsFragment();
 
+        } else if (billItem == item) {
+            fragment = new BillingFragment();
+
         }
 
         if (fragment != null) {
@@ -93,6 +113,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
             transaction.replace(R.id.fragment_container, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
+            mCurrentFragment = fragment;
         }
     }
 
@@ -106,6 +127,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem helloJniItem = new FuncItem("hello jni");
     static final FuncItem pmItem = new FuncItem("pm");
     static final FuncItem dsItem = new FuncItem("DS");
+    static final FuncItem billItem = new FuncItem("billing");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -113,6 +135,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(helloJniItem);
         FUNC_ITEMS.add(pmItem);
         FUNC_ITEMS.add(dsItem);
+        FUNC_ITEMS.add(billItem);
     }
 
     public static class FuncItem {

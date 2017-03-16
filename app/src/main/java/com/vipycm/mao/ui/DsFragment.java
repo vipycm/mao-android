@@ -1,11 +1,9 @@
 package com.vipycm.mao.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.vipycm.commons.MaoLog;
@@ -18,12 +16,11 @@ import java.util.Queue;
  * data structure and algorithms
  * Created by mao on 2016/12/29.
  */
-public class DsFragment extends Fragment implements View.OnClickListener {
+public class DsFragment extends MaoFragment {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 
     TextView txt_content;
-    Button btn_ok;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,8 +28,6 @@ public class DsFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_sample, container, false);
         txt_content = (TextView) rootView.findViewById(R.id.txt_content);
         txt_content.setText(this.getClass().getSimpleName());
-        btn_ok = (Button) rootView.findViewById(R.id.btn_ok);
-        btn_ok.setOnClickListener(this);
         return rootView;
     }
 
@@ -44,7 +39,7 @@ public class DsFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
+    public void onMaoClick(View v) {
         switch (v.getId()) {
             case R.id.btn_ok:
                 Node root = new Node("a");

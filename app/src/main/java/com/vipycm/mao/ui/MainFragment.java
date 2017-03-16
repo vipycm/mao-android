@@ -2,7 +2,6 @@ package com.vipycm.mao.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +21,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnMainFragmentInteraction}
  * interface.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends MaoFragment {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 

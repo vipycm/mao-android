@@ -14,8 +14,8 @@ android {
         applicationId "com.vipycm.mao"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 10000
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi"
@@ -26,10 +26,22 @@ android {
             }
         }
     }
+    signingConfigs {
+        vipycm {
+            keyAlias 'vipycm'
+            keyPassword 'dmlweWNtLmNvbQ=='
+            storeFile file('/home/mao/Share/keystore/vipycm.jks')
+            storePassword 'dmlweWNtLmNvbQ=='
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.vipycm
+        }
+        debug {
+            signingConfig signingConfigs.vipycm
         }
     }
     externalNativeBuild {
@@ -49,4 +61,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     provided files("${SDK_DIR}/platforms/android-25/data/layoutlib.jar")
+    compile 'com.google.android.gms:play-services-wallet:10.0.1'
 }
