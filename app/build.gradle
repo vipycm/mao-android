@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 
+Properties props = new Properties()
+props.load(new FileInputStream(project.rootProject.file("local.properties")))
+
 String SDK_DIR = System.getenv("ANDROID_HOME")
-if(SDK_DIR == null) {
-    Properties props = new Properties()
-    props.load(new FileInputStream(project.rootProject.file("local.properties")))
+if (SDK_DIR == null) {
     SDK_DIR = props.get('sdk.dir');
 }
 
@@ -28,10 +29,10 @@ android {
     }
     signingConfigs {
         vipycm {
-            keyAlias 'vipycm'
-            keyPassword 'dmlweWNtLmNvbQ=='
-            storeFile file('/home/mao/Share/keystore/vipycm.jks')
-            storePassword 'dmlweWNtLmNvbQ=='
+            keyAlias props.get('sign.keyAlias')
+            keyPassword props.get('sign.keyPassword')
+            storeFile file(props.get('sign.storeFile'))
+            storePassword props.get('sign.storePassword')
         }
     }
     buildTypes {
@@ -41,7 +42,7 @@ android {
             signingConfig signingConfigs.vipycm
         }
         debug {
-            signingConfig signingConfigs.vipycm
+//            signingConfig signingConfigs.vipycm
         }
     }
     externalNativeBuild {
