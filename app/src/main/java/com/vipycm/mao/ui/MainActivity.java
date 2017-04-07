@@ -106,6 +106,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (billItem == item) {
             fragment = new BillingFragment();
 
+        } else if (cameraItem == item) {
+            fragment = new CameraFragment();
+
         }
 
         if (fragment != null) {
@@ -128,6 +131,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem pmItem = new FuncItem("pm");
     static final FuncItem dsItem = new FuncItem("DS");
     static final FuncItem billItem = new FuncItem("billing");
+    static final FuncItem cameraItem = new FuncItem("camera");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -136,6 +140,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(pmItem);
         FUNC_ITEMS.add(dsItem);
         FUNC_ITEMS.add(billItem);
+        FUNC_ITEMS.add(cameraItem);
     }
 
     public static class FuncItem {
