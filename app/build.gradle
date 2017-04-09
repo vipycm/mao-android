@@ -19,7 +19,7 @@ android {
         versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters "armeabi"
+            abiFilters "armeabi-v7a"
         }
         externalNativeBuild {
             cmake {
@@ -63,4 +63,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.1.0'
     provided files("${SDK_DIR}/platforms/android-25/data/layoutlib.jar")
     compile 'com.google.android.gms:play-services-wallet:10.0.1'
+    compile project (':sub-project:opencv')
 }

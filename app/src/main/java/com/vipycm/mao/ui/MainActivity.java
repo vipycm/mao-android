@@ -10,6 +10,8 @@ import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.R;
 import com.vipycm.mao.ui.MainFragment.OnMainFragmentInteraction;
 
+import org.opencv.samples.facedetect.FdActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,6 +111,10 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (cameraItem == item) {
             fragment = new CameraFragment();
 
+        } else if (faceDetectionItem == item) {
+            FdActivity.start(this);
+            return;
+
         }
 
         if (fragment != null) {
@@ -132,6 +138,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem dsItem = new FuncItem("DS");
     static final FuncItem billItem = new FuncItem("billing");
     static final FuncItem cameraItem = new FuncItem("camera");
+    static final FuncItem faceDetectionItem = new FuncItem("face detection");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -141,6 +148,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(dsItem);
         FUNC_ITEMS.add(billItem);
         FUNC_ITEMS.add(cameraItem);
+        FUNC_ITEMS.add(faceDetectionItem);
     }
 
     public static class FuncItem {
