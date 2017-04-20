@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.R;
+import com.vipycm.mao.camera.CameraActivity;
 import com.vipycm.mao.ui.MainFragment.OnMainFragmentInteraction;
 
 import org.opencv.samples.facedetect.FdActivity;
@@ -108,11 +109,15 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (billItem == item) {
             fragment = new BillingFragment();
 
-        } else if (cameraItem == item) {
+        } else if (camera2Item == item) {
             fragment = new CameraFragment();
 
         } else if (faceDetectionItem == item) {
             FdActivity.start(this);
+            return;
+
+        } else if (cameraItem == item) {
+            CameraActivity.start(this);
             return;
 
         }
@@ -137,8 +142,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem pmItem = new FuncItem("pm");
     static final FuncItem dsItem = new FuncItem("DS");
     static final FuncItem billItem = new FuncItem("billing");
-    static final FuncItem cameraItem = new FuncItem("camera");
+    static final FuncItem camera2Item = new FuncItem("camera2");
     static final FuncItem faceDetectionItem = new FuncItem("face detection");
+    static final FuncItem cameraItem = new FuncItem("camera");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -147,8 +153,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(pmItem);
         FUNC_ITEMS.add(dsItem);
         FUNC_ITEMS.add(billItem);
-        FUNC_ITEMS.add(cameraItem);
+        FUNC_ITEMS.add(camera2Item);
         FUNC_ITEMS.add(faceDetectionItem);
+        FUNC_ITEMS.add(cameraItem);
     }
 
     public static class FuncItem {
