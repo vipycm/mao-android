@@ -27,22 +27,10 @@ android {
             }
         }
     }
-    signingConfigs {
-        vipycm {
-            keyAlias props.get('sign.keyAlias')
-            keyPassword props.get('sign.keyPassword')
-            storeFile file(props.get('sign.storeFile'))
-            storePassword props.get('sign.storePassword')
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.vipycm
-        }
-        debug {
-//            signingConfig signingConfigs.vipycm
         }
     }
     externalNativeBuild {
@@ -58,10 +46,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
     provided files("${SDK_DIR}/platforms/android-25/data/layoutlib.jar")
-    compile 'com.google.android.gms:play-services-wallet:10.0.1'
+    compile 'com.google.android.gms:play-services-wallet:10.2.1'
     compile project (':sub-project:opencv')
 }
