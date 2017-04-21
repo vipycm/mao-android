@@ -45,11 +45,11 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * CameraFragment
+ * Camera2Fragment
  * Created by mao on 2017/4/7.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class CameraFragment extends MaoFragment implements SurfaceTextureListener, OnCheckedChangeListener {
+public class Camera2Fragment extends MaoFragment implements SurfaceTextureListener, OnCheckedChangeListener {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 

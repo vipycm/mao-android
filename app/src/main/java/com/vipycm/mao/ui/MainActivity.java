@@ -110,7 +110,10 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
             fragment = new BillingFragment();
 
         } else if (camera2Item == item) {
-            fragment = new CameraFragment();
+            fragment = new Camera2Fragment();
+
+        } else if (cameraGLItem == item) {
+            fragment = new CameraGLFragment();
 
         } else if (faceDetectionItem == item) {
             FdActivity.start(this);
@@ -143,6 +146,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem dsItem = new FuncItem("DS");
     static final FuncItem billItem = new FuncItem("billing");
     static final FuncItem camera2Item = new FuncItem("camera2");
+    static final FuncItem cameraGLItem = new FuncItem("cameraGL");
     static final FuncItem faceDetectionItem = new FuncItem("face detection");
     static final FuncItem cameraItem = new FuncItem("camera");
 
@@ -154,6 +158,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(dsItem);
         FUNC_ITEMS.add(billItem);
         FUNC_ITEMS.add(camera2Item);
+        FUNC_ITEMS.add(cameraGLItem);
         FUNC_ITEMS.add(faceDetectionItem);
         FUNC_ITEMS.add(cameraItem);
     }
