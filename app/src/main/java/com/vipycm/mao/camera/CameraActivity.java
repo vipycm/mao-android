@@ -3,17 +3,24 @@ package com.vipycm.mao.camera;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 
+import com.vipycm.commons.FileUtils;
+import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.MaoApp;
 import com.vipycm.mao.R;
+import com.vipycm.mao.camera.CameraView.ICaptureCallback;
 import com.vipycm.mao.camera.filter.CameraFilterGroup;
 import com.vipycm.mao.camera.filter.ToneCurveFilter;
 
 public class CameraActivity extends Activity {
 
+    private MaoLog log = MaoLog.getLogger(getClass().getSimpleName());
     private CameraView mCameraView;
+    private final String mSavePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/mao/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,17 @@ public class CameraActivity extends Activity {
         switch (v.getId()) {
             case R.id.iv_switch:
                 mCameraView.switchCamera();
+                break;
+            case R.id.iv_capture:
+                log.i("capture start");
+                mCameraView.capture(new ICaptureCallback() {
+                    @Override
+                    public void onCapture(Bitmap bitmap) {
+                        String path = mSavePath + System.currentTimeMillis() + ".jpg";
+                        FileUtils.saveImage(path, bitmap);
+                        log.i("onCapture:" + path);
+                    }
+                });
                 break;
         }
     }

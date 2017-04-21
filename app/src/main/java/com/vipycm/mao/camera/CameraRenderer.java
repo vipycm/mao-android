@@ -86,10 +86,11 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        log.i("onDrawFrame");
+        log.d("onDrawFrame");
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         runAll(mRunOnDraw);
         mFilter.onDraw(mGLTextureId, mGLCubeBuffer, mGLTextureBuffer);
+        runAll(mRunOnDrawEnd);
         if (mSurfaceTexture != null) {
             mSurfaceTexture.updateTexImage();
         }
@@ -97,7 +98,7 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
 
     @Override
     public void onPreviewFrame(final byte[] data, final Camera camera) {
-        log.i("onPreviewFrame");
+        log.d("onPreviewFrame");
         final Size previewSize = camera.getParameters().getPreviewSize();
         if (mGLRgbBuffer == null) {
             mGLRgbBuffer = IntBuffer.allocate(previewSize.width * previewSize.height);
