@@ -3,49 +3,35 @@ package com.vipycm.mao.camera;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 import com.vipycm.mao.R;
 
 public class CameraActivity extends Activity {
 
-    private GLSurfaceView mPreview;
-    private Camera mCamera;
-
-    private int mCameraId = CameraInfo.CAMERA_FACING_BACK;
+    private CameraView mCameraView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        mPreview = (GLSurfaceView) findViewById(R.id.camera_preview);
-        mCamera = Camera.open(mCameraId);
-        mPreview.setEGLContextClientVersion(2);
-        CameraRenderer renderer = new CameraRenderer(mPreview, mCamera);
-        renderer.setRotation(90, mCameraId == CameraInfo.CAMERA_FACING_FRONT, false);
-        mPreview.setRenderer(renderer);
-        mPreview.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        mCameraView = (CameraView) findViewById(R.id.camera_view);
     }
 
     @Override
     protected void onResume() {
-        mPreview.onResume();
         super.onResume();
+        mCameraView.onResume();
     }
 
     @Override
     protected void onPause() {
-        mPreview.onPause();
+        mCameraView.onPause();
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        mCamera.stopPreview();
-        mCamera.release();
         super.onDestroy();
     }
 

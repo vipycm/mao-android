@@ -6,7 +6,7 @@ import android.opengl.GLES20;
 import java.nio.FloatBuffer;
 
 /**
- * Created by yangchangmao on 17-4-20.
+ * Created by mao on 17-4-20.
  */
 
 public class CameraFilter {
@@ -51,8 +51,8 @@ public class CameraFilter {
 
     public CameraFilter() {
         mVertexShader = NO_FILTER_VERTEX_SHADER;
-//        mFragmentShader = NO_FILTER_FRAGMENT_SHADER;
-        mFragmentShader = fss;
+        mFragmentShader = NO_FILTER_FRAGMENT_SHADER;
+//        mFragmentShader = fss;
     }
 
     public void init() {
@@ -63,7 +63,36 @@ public class CameraFilter {
         mIsInitialized = true;
     }
 
+    public int getProgram() {
+        return mGLProgId;
+    }
     public void onDraw(final int textureId, final FloatBuffer cubeBuffer, final FloatBuffer textureBuffer) {
+        GLES20.glUseProgram(mGLProgId);
+//        runPendingOnDrawTasks();
+        if (!mIsInitialized) {
+            return;
+        }
+
+        cubeBuffer.position(0);
+        GLES20.glVertexAttribPointer(mGLAttribPosition, 2, GLES20.GL_FLOAT, false, 0, cubeBuffer);
+        GLES20.glEnableVertexAttribArray(mGLAttribPosition);
+        textureBuffer.position(0);
+        GLES20.glVertexAttribPointer(mGLAttribTextureCoordinate, 2, GLES20.GL_FLOAT, false, 0,
+                textureBuffer);
+        GLES20.glEnableVertexAttribArray(mGLAttribTextureCoordinate);
+        if (textureId != OpenGlUtils.NO_TEXTURE) {
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
+            GLES20.glUniform1i(mGLUniformTexture, 0);
+        }
+//        onDrawArraysPre();
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+        GLES20.glDisableVertexAttribArray(mGLAttribPosition);
+        GLES20.glDisableVertexAttribArray(mGLAttribTextureCoordinate);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+    }
+
+    public void onDraw2(final int textureId, final FloatBuffer cubeBuffer, final FloatBuffer textureBuffer) {
         if (!mIsInitialized) {
             return;
         }

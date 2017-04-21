@@ -8,7 +8,7 @@ import com.vipycm.mao.camera.OpenGlUtils;
 import java.nio.FloatBuffer;
 
 /**
- * Created by yangchangmao on 17-4-20.
+ * Created by mao on 17-4-20.
  */
 
 public class CameraFilter {
