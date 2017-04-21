@@ -2,11 +2,13 @@ package com.vipycm.mao.camera;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.hardware.Camera.Size;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.vipycm.commons.MaoLog;
+import com.vipycm.mao.camera.filter.CameraFilter;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -45,7 +47,7 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
     private SurfaceTexture mSurfaceTexture;
     private CameraFilter mFilter;
 
-    static final float CUBE[] = {
+    public static final float CUBE[] = {
             -1.0f, -1.0f,
             1.0f, -1.0f,
             -1.0f, 1.0f,
@@ -58,8 +60,10 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
         float[] textureCords = TextureRotationUtil.getRotation(90, true, false);
         mGLTextureBuffer = ByteBuffer.allocateDirect(textureCords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mGLTextureBuffer.put(textureCords).position(0);
+    }
 
-        mFilter = new CameraFilter();
+    public void setFilter(CameraFilter filter) {
+        mFilter = filter;
     }
 
     @Override
@@ -77,6 +81,7 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
         mOutputHeight = height;
         GLES20.glViewport(0, 0, width, height);
         GLES20.glUseProgram(mFilter.getProgram());
+        mFilter.onOutputSizeChanged(width, height);
     }
 
     @Override
@@ -132,6 +137,9 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
                 try {
                     Camera.Parameters param = camera.getParameters();
                     param.setPreviewSize(1280, 720);//TODO
+                    if (param.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                        param.setFocusMode(Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                    }
                     camera.setParameters(param);
                     int[] textures = new int[1];
                     GLES20.glGenTextures(1, textures, 0);

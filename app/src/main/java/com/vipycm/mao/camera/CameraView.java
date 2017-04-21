@@ -7,6 +7,8 @@ import android.hardware.Camera.CameraInfo;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.vipycm.mao.camera.filter.CameraFilter;
+
 /**
  * 显示相机预览界面
  * Created by mao on 17-4-21.
@@ -36,6 +38,10 @@ public class CameraView extends GLSurfaceView {
         mRenderer = new CameraRenderer();
         setRenderer(mRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+    }
+
+    public void setFilter(CameraFilter filter) {
+        mRenderer.setFilter(filter);
     }
 
     @Override
