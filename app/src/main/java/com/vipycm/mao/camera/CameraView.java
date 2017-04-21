@@ -41,20 +41,35 @@ public class CameraView extends GLSurfaceView {
     @Override
     public synchronized void onResume() {
         super.onResume();
+        setUpCamera();
+    }
+
+    @Override
+    public synchronized void onPause() {
+        releaseCamera();
+        super.onPause();
+    }
+
+    private void setUpCamera() {
         if (mCamera == null) {
             mCamera = Camera.open(mCameraId);
-            mCamera.setPreviewCallback(mRenderer);
             mRenderer.setRotation(90, mCameraId == CameraInfo.CAMERA_FACING_FRONT, false);
             mRenderer.setUpSurfaceTexture(mCamera);
         }
     }
 
-    @Override
-    public synchronized void onPause() {
-        mCamera.setPreviewCallback(null);
-        mCamera.stopPreview();
-        mCamera.release();
-        mCamera = null;
-        super.onPause();
+    private void releaseCamera() {
+        if (mCamera != null) {
+            mCamera.setPreviewCallback(null);
+            mCamera.stopPreview();
+            mCamera.release();
+            mCamera = null;
+        }
+    }
+
+    public void switchCamera() {
+        releaseCamera();
+        mCameraId = (mCameraId + 1) % Camera.getNumberOfCameras();
+        setUpCamera();
     }
 }

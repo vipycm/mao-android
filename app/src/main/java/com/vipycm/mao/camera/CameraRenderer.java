@@ -115,7 +115,7 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
         }
     }
 
-    public void setRotation(final int rotation, final boolean flipHorizontal, final boolean flipVertical) {
+    public synchronized void setRotation(final int rotation, final boolean flipHorizontal, final boolean flipVertical) {
         float[] textureCords = TextureRotationUtil.getRotation(rotation, flipHorizontal, flipVertical);
         mGLTextureBuffer = ByteBuffer.allocateDirect(textureCords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mGLTextureBuffer.put(textureCords).position(0);
@@ -133,11 +133,11 @@ public class CameraRenderer implements GLSurfaceView.Renderer, Camera.PreviewCal
                     Camera.Parameters param = camera.getParameters();
                     param.setPreviewSize(1280, 720);//TODO
                     camera.setParameters(param);
-
                     int[] textures = new int[1];
                     GLES20.glGenTextures(1, textures, 0);
                     mSurfaceTexture = new SurfaceTexture(textures[0]);
                     camera.setPreviewTexture(mSurfaceTexture);
+                    camera.setPreviewCallback(CameraRenderer.this);
                     camera.startPreview();
                 } catch (IOException e) {
                     e.printStackTrace();

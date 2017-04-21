@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.vipycm.mao.R;
 
@@ -33,6 +34,14 @@ public class CameraActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public void onMaoClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_switch:
+                mCameraView.switchCamera();
+                break;
+        }
     }
 
     public static void start(Context context) {
