@@ -1,4 +1,4 @@
-package com.tencent.mars.xlog;
+package com.vipycm.commons.xlog;
 
 import android.content.Context;
 import android.os.Handler;

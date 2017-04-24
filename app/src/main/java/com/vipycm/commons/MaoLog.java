@@ -2,8 +2,8 @@ package com.vipycm.commons;
 
 import android.content.Context;
 
-import com.tencent.mars.xlog.Log;
-import com.tencent.mars.xlog.Xlog;
+import com.vipycm.commons.xlog.Log;
+import com.vipycm.commons.xlog.Xlog;
 import com.vipycm.mao.BuildConfig;
 import com.vipycm.mao.MaoApp;
 
