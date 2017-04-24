@@ -4,22 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.vipycm.commons.FileUtils;
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.MaoApp;
 import com.vipycm.mao.R;
 import com.vipycm.mao.camera.CameraView.ICaptureCallback;
-import com.vipycm.mao.camera.filter.CameraFilterGroup;
 import com.vipycm.mao.camera.filter.ToneCurveFilter;
 
 public class CameraActivity extends Activity {
 
     private MaoLog log = MaoLog.getLogger(getClass().getSimpleName());
     private CameraView mCameraView;
+    private ImageView iv_record;
     private final String mSavePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/mao/";
 
     @Override
@@ -27,13 +29,11 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         mCameraView = (CameraView) findViewById(R.id.camera_view);
+        iv_record = (ImageView) findViewById(R.id.iv_record);
 
         ToneCurveFilter toneCurveFilter = new ToneCurveFilter();
         toneCurveFilter.setFromCurveFileInputStream(MaoApp.getContext().getResources().openRawResource(R.raw.tone_cuver_sample));
-        CameraFilterGroup filterGroup = new CameraFilterGroup();
-        filterGroup.addFilter(toneCurveFilter);
-
-        mCameraView.setFilter(filterGroup);
+        mCameraView.setFilter(toneCurveFilter);
     }
 
     @Override
@@ -68,6 +68,16 @@ public class CameraActivity extends Activity {
                         log.i("onCapture:" + path);
                     }
                 });
+                break;
+            case R.id.iv_record:
+                if (mCameraView.isRecording()) {
+                    mCameraView.stopRecording();
+                    iv_record.setColorFilter(0);
+                } else {
+                    String path = mSavePath + System.currentTimeMillis() + ".mp4";
+                    mCameraView.startRecording(path);
+                    iv_record.setColorFilter(Color.RED);
+                }
                 break;
         }
     }

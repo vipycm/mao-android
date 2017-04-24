@@ -9,7 +9,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.vipycm.mao.camera.encoder.MovieWriter;
 import com.vipycm.mao.camera.filter.CameraFilter;
+import com.vipycm.mao.camera.filter.CameraFilterGroup;
 
 import java.nio.IntBuffer;
 import java.util.concurrent.Semaphore;
@@ -23,6 +25,9 @@ public class CameraView extends GLSurfaceView {
 
     private Camera mCamera;
     private CameraRenderer mRenderer;
+
+    private boolean mIsRecording = false;
+    private MovieWriter mMovieWriter;
 
     private int mCameraId = CameraInfo.CAMERA_FACING_FRONT;
 
@@ -43,10 +48,22 @@ public class CameraView extends GLSurfaceView {
         mRenderer = new CameraRenderer();
         setRenderer(mRenderer);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        mMovieWriter = new MovieWriter();
     }
 
     public void setFilter(CameraFilter filter) {
-        mRenderer.setFilter(filter);
+        if (filter == null) {
+            filter = new CameraFilter();
+        }
+        CameraFilterGroup filterGroup;
+        if (filter instanceof CameraFilterGroup) {
+            filterGroup = (CameraFilterGroup) filter;
+        } else {
+            filterGroup = new CameraFilterGroup();
+            filterGroup.addFilter(filter);
+        }
+        filterGroup.addFilter(mMovieWriter);
+        mRenderer.setFilter(filterGroup);
     }
 
     @Override
@@ -57,6 +74,7 @@ public class CameraView extends GLSurfaceView {
 
     @Override
     public synchronized void onPause() {
+        stopRecording();
         releaseCamera();
         super.onPause();
     }
@@ -82,6 +100,24 @@ public class CameraView extends GLSurfaceView {
         releaseCamera();
         mCameraId = (mCameraId + 1) % Camera.getNumberOfCameras();
         setUpCamera();
+    }
+
+    public boolean isRecording() {
+        return mIsRecording;
+    }
+
+    public void startRecording(String path) {
+        if (!mIsRecording) {
+            mIsRecording = true;
+            mMovieWriter.startRecording(path, 1080, 1920);
+        }
+    }
+
+    public void stopRecording() {
+        if (mIsRecording) {
+            mIsRecording = false;
+            mMovieWriter.stopRecording();
+        }
     }
 
     public void capture(final ICaptureCallback callback) {
