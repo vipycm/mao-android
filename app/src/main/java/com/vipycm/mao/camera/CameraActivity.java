@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.vipycm.commons.FileUtils;
 import com.vipycm.commons.MaoLog;
@@ -21,7 +19,6 @@ public class CameraActivity extends Activity {
 
     private MaoLog log = MaoLog.getLogger(getClass().getSimpleName());
     private CameraView mCameraView;
-    private ImageView iv_record;
     private final String mSavePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/mao/";
 
     @Override
@@ -29,7 +26,8 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         mCameraView = (CameraView) findViewById(R.id.camera_view);
-        iv_record = (ImageView) findViewById(R.id.iv_record);
+        CaptureButton captureButton = (CaptureButton) findViewById(R.id.capture_button);
+        captureButton.setCaptureButtonListener(mCaptureButtonListener);
 
         ToneCurveFilter toneCurveFilter = new ToneCurveFilter();
         toneCurveFilter.setFromCurveFileInputStream(MaoApp.getContext().getResources().openRawResource(R.raw.tone_cuver_sample));
@@ -58,29 +56,35 @@ public class CameraActivity extends Activity {
             case R.id.iv_switch:
                 mCameraView.switchCamera();
                 break;
-            case R.id.iv_capture:
-                log.i("capture start");
-                mCameraView.capture(new ICaptureCallback() {
-                    @Override
-                    public void onCapture(Bitmap bitmap) {
-                        String path = mSavePath + System.currentTimeMillis() + ".jpg";
-                        FileUtils.saveImage(path, bitmap);
-                        log.i("onCapture:" + path);
-                    }
-                });
-                break;
-            case R.id.iv_record:
-                if (mCameraView.isRecording()) {
-                    mCameraView.stopRecording();
-                    iv_record.setColorFilter(0);
-                } else {
-                    String path = mSavePath + System.currentTimeMillis() + ".mp4";
-                    mCameraView.startRecording(path);
-                    iv_record.setColorFilter(Color.RED);
-                }
-                break;
         }
     }
+
+    CaptureButton.ICaptureButtonListener mCaptureButtonListener = new CaptureButton.ICaptureButtonListener() {
+
+        @Override
+        public void onClick() {
+            log.i("capture start");
+            mCameraView.capture(new ICaptureCallback() {
+                @Override
+                public void onCapture(Bitmap bitmap) {
+                    String path = mSavePath + System.currentTimeMillis() + ".jpg";
+                    FileUtils.saveImage(path, bitmap);
+                    log.i("onCapture:" + path);
+                }
+            });
+        }
+
+        @Override
+        public void onLongPress() {
+            String path = mSavePath + System.currentTimeMillis() + ".mp4";
+            mCameraView.startRecording(path);
+        }
+
+        @Override
+        public void onLongPressEnd() {
+            mCameraView.stopRecording();
+        }
+    };
 
     public static void start(Context context) {
         Intent intent = new Intent(context, CameraActivity.class);

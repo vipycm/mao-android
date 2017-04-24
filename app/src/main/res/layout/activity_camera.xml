@@ -32,27 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/iv_capture"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_centerHorizontal="true"
-                android:onClick="onMaoClick"
-                android:src="@drawable/abc_btn_radio_to_on_mtrl_000"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_record"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_centerHorizontal="true"
-                android:onClick="onMaoClick"
-                android:src="@drawable/abc_btn_radio_to_on_mtrl_000"/>
+            <com.vipycm.mao.camera.CaptureButton
+                android:id="@+id/capture_button"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
