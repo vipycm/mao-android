@@ -123,6 +123,10 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
             CameraActivity.start(this);
             return;
 
+        } else if (cameraNewItem == item) {
+            com.vipycm.mao.cameranew.CameraActivity.start(this);
+            return;
+
         }
 
         if (fragment != null) {
@@ -149,6 +153,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem cameraGLItem = new FuncItem("cameraGL");
     static final FuncItem faceDetectionItem = new FuncItem("face detection");
     static final FuncItem cameraItem = new FuncItem("camera");
+    static final FuncItem cameraNewItem = new FuncItem("camera new");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -161,6 +166,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(cameraGLItem);
         FUNC_ITEMS.add(faceDetectionItem);
         FUNC_ITEMS.add(cameraItem);
+        FUNC_ITEMS.add(cameraNewItem);
     }
 
     public static class FuncItem {

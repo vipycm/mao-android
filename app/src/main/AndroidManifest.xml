@@ -30,6 +30,10 @@
         <activity
             android:name=".camera.CameraActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".cameranew.CameraActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
     </application>
 
 </manifest>

@@ -28,6 +28,13 @@ import java.nio.IntBuffer;
 public class OpenGlUtils {
     public static final int NO_TEXTURE = -1;
 
+    public static final float[] IDENTITY_MATRIX = {
+            1.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f
+    };
+
     public static int loadTexture(final Bitmap img, final int usedTexId) {
         return loadTexture(img, usedTexId, true);
     }
