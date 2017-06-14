@@ -12,17 +12,22 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.AttributeSet;
+import android.view.SurfaceHolder;
 
 import com.vipycm.commons.MaoLog;
-import com.vipycm.mao.camera.OpenGlUtils;
 import com.vipycm.mao.camera.TextureRotationUtil;
 import com.vipycm.mao.cameranew.filter.CameraFilter;
+import com.vipycm.mao.cameranew.filter.CameraFilterGroup;
+import com.vipycm.mao.cameranew.filter.CameraInputFilter;
+import com.vipycm.mao.cameranew.filter.RedFilter;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -40,21 +45,15 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
 
     private FloatBuffer mCubeBuffer;
     private FloatBuffer mTextureBuffer;
-    private FloatBuffer mMVPBuffer;
 
     private int mTextureId = 0;
     private boolean mNeedUpdateTexImage = false;
     private SurfaceTexture mSurfaceTexture;
-    private CameraFilter mCameraFilter = new CameraFilter();
+    private CameraInputFilter mCameraInputFilter = new CameraInputFilter();
+
+    private CameraFilterGroup mCameraFilterGroup;
 
     private final Queue<Runnable> mRunOnDraw = new LinkedList<>();
-
-    private static final float[] CUBE = {
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-            -1.0f, 1.0f,
-            1.0f, 1.0f
-    };
 
     public CameraView(Context context) {
         super(context);
@@ -73,15 +72,18 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
         setRenderer(this);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
-        mCubeBuffer = ByteBuffer.allocateDirect(CUBE.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        mCubeBuffer.put(CUBE);
+        float[] cube = TextureRotationUtil.CUBE;
+        mCubeBuffer = ByteBuffer.allocateDirect(cube.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        mCubeBuffer.put(cube);
 
-        float[] textureCords = TextureRotationUtil.getRotation(90, mCameraId == CameraInfo.CAMERA_FACING_FRONT, false);
+        float[] textureCords = TextureRotationUtil.getRotation(90, mCameraId == CameraInfo.CAMERA_FACING_FRONT, true);
         mTextureBuffer = ByteBuffer.allocateDirect(textureCords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTextureBuffer.put(textureCords);
 
-        mMVPBuffer = ByteBuffer.allocateDirect(OpenGlUtils.IDENTITY_MATRIX.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        mMVPBuffer.put(OpenGlUtils.IDENTITY_MATRIX);
+        List<CameraFilter> filters = new ArrayList<>();
+        filters.add(mCameraInputFilter);
+        filters.add(new RedFilter());
+        mCameraFilterGroup = new CameraFilterGroup(filters);
     }
 
     @Override
@@ -145,13 +147,14 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
         mLog.i("onSurfaceCreated");
         GLES20.glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
-        mCameraFilter.loadProgram();
+        mCameraFilterGroup.init();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         mLog.i("onSurfaceChanged");
         GLES20.glViewport(0, 0, width, height);
+        mCameraFilterGroup.initFrameBuffer(width, height);
     }
 
     @Override
@@ -166,8 +169,15 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
         }
         runAll(mRunOnDraw);
         if (mTextureId != 0) {
-            mCameraFilter.onDraw(mTextureId, mCubeBuffer, mTextureBuffer);
+//            mSurfaceTexture.getTransformMatrix(mCameraInputFilter.getMVPMatrix());
+            mCameraFilterGroup.draw(mTextureId, mCubeBuffer, mTextureBuffer);
         }
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        super.surfaceDestroyed(holder);
+        mCameraFilterGroup.destroy();
     }
 
     @Override
