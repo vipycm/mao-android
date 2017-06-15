@@ -1,6 +1,7 @@
 package com.vipycm.mao.cameranew;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.SurfaceTexture;
 import android.graphics.SurfaceTexture.OnFrameAvailableListener;
@@ -15,6 +16,7 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 
 import com.vipycm.commons.MaoLog;
+import com.vipycm.mao.camera.CameraView.ICaptureCallback;
 import com.vipycm.mao.camera.TextureRotationUtil;
 import com.vipycm.mao.cameranew.filter.CameraFilter;
 import com.vipycm.mao.cameranew.filter.CameraFilterGroup;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,7 +56,11 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
 
     private CameraFilterGroup mCameraFilterGroup;
 
+    private int mSurfaceWidth;
+    private int mSurfaceHeight;
+
     private final Queue<Runnable> mRunOnDraw = new LinkedList<>();
+    private final Queue<Runnable> mRunOnDrawEnd = new LinkedList<>();
 
     public CameraView(Context context) {
         super(context);
@@ -154,6 +161,8 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         mLog.i("onSurfaceChanged");
         GLES20.glViewport(0, 0, width, height);
+        mSurfaceWidth = width;
+        mSurfaceHeight = height;
         mCameraFilterGroup.initFrameBuffer(width, height);
     }
 
@@ -172,6 +181,7 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
 //            mSurfaceTexture.getTransformMatrix(mCameraInputFilter.getMVPMatrix());
             mCameraFilterGroup.draw(mTextureId, mCubeBuffer, mTextureBuffer);
         }
+        runAll(mRunOnDrawEnd);
     }
 
     @Override
@@ -187,6 +197,29 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
         requestRender();
     }
 
+    public void capture(final ICaptureCallback callback) {
+        mLog.i("capture");
+        runOnDrawEnd(new Runnable() {
+            @Override
+            public void run() {
+                IntBuffer ib = IntBuffer.allocate(mSurfaceWidth * mSurfaceHeight);
+                GLES20.glReadPixels(0, 0, mSurfaceWidth, mSurfaceHeight, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, ib);
+                Bitmap result = Bitmap.createBitmap(mSurfaceWidth, mSurfaceHeight, Bitmap.Config.ARGB_8888);
+                result.copyPixelsFromBuffer(ib);
+
+                callback.onCapture(result);
+            }
+        });
+    }
+
+    public void startRecording(String path) {
+
+    }
+
+    public void stopRecording() {
+
+    }
+
     private void runAll(Queue<Runnable> queue) {
         synchronized (queue) {
             while (!queue.isEmpty()) {
@@ -198,6 +231,12 @@ public class CameraView extends GLSurfaceView implements Renderer, OnFrameAvaila
     private void runOnDraw(final Runnable runnable) {
         synchronized (mRunOnDraw) {
             mRunOnDraw.add(runnable);
+        }
+    }
+
+    protected void runOnDrawEnd(final Runnable runnable) {
+        synchronized (mRunOnDrawEnd) {
+            mRunOnDrawEnd.add(runnable);
         }
     }
 }
