@@ -2,8 +2,7 @@ package com.vipycm.mao.cameranew.filter;
 
 import android.opengl.GLES20;
 
-import com.vipycm.mao.camera.OpenGlUtils;
-import com.vipycm.mao.camera.TextureRotationUtil;
+import com.vipycm.mao.cameranew.OpenGLUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -21,21 +20,17 @@ public class CameraFilterGroup extends CameraFilter {
 
     private FloatBuffer mCubeBuffer;
     private FloatBuffer mTextureBuffer;
-    private FloatBuffer mMVPBuffer;
 
     public CameraFilterGroup(List<CameraFilter> filters) {
         mFilters = filters;
 
-        float[] cube = TextureRotationUtil.CUBE;
+        float[] cube = OpenGLUtils.CUBE;
         mCubeBuffer = ByteBuffer.allocateDirect(cube.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mCubeBuffer.put(cube);
 
-        float[] textureCords = TextureRotationUtil.TEXTURE_NO_ROTATION;
+        float[] textureCords = OpenGLUtils.TEXTURE_NO_ROTATION;
         mTextureBuffer = ByteBuffer.allocateDirect(textureCords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTextureBuffer.put(textureCords);
-
-        mMVPBuffer = ByteBuffer.allocateDirect(OpenGlUtils.IDENTITY_MATRIX.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        mMVPBuffer.put(OpenGlUtils.IDENTITY_MATRIX);
     }
 
     @Override

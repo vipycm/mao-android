@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 
 import com.vipycm.commons.MaoLog;
-import com.vipycm.mao.camera.TextureRotationUtil;
 import com.vipycm.mao.cameranew.filter.CameraFilter;
 import com.vipycm.mao.cameranew.filter.CameraFilterGroup;
 import com.vipycm.mao.cameranew.filter.CameraInputFilter;
@@ -72,11 +71,11 @@ public class BaseCameraView extends GLSurfaceView implements Renderer, OnFrameAv
         setRenderer(this);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
-        float[] cube = TextureRotationUtil.CUBE;
+        float[] cube = OpenGLUtils.CUBE;
         mCubeBuffer = ByteBuffer.allocateDirect(cube.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mCubeBuffer.put(cube);
 
-        float[] textureCords = TextureRotationUtil.getRotation(90, mCameraId == CameraInfo.CAMERA_FACING_FRONT, true);
+        float[] textureCords = OpenGLUtils.getTextureCords(90, mCameraId == CameraInfo.CAMERA_FACING_FRONT, true);
         mTextureBuffer = ByteBuffer.allocateDirect(textureCords.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTextureBuffer.put(textureCords);
 

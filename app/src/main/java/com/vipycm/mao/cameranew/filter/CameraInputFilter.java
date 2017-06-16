@@ -42,7 +42,7 @@ public class CameraInputFilter extends CameraFilter {
         GLES20.glVertexAttribPointer(mATextureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, textureBuffer);
         GLES20.glEnableVertexAttribArray(mATextureCoordinateHandle);
 
-        GLES20.glActiveTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureId);
         GLES20.glUniform1i(mUTextureHandle, 0);
 

@@ -11,8 +11,8 @@ import android.support.annotation.Nullable;
 import com.vipycm.commons.FileUtils;
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.R;
-import com.vipycm.mao.camera.CameraView.ICaptureCallback;
 import com.vipycm.mao.camera.CaptureButton;
+import com.vipycm.mao.cameranew.CameraView.ICaptureCallback;
 
 /**
  * Created by mao on 17-6-13.

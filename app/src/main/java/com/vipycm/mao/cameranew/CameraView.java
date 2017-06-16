@@ -10,9 +10,8 @@ import android.opengl.GLES20;
 import android.util.AttributeSet;
 
 import com.vipycm.commons.MaoLog;
-import com.vipycm.mao.camera.CameraView.ICaptureCallback;
 import com.vipycm.mao.cameranew.filter.CameraFilter;
-import com.vipycm.mao.cameranew.filter.RedFilter;
+import com.vipycm.mao.cameranew.filter.SunriseFilter;
 
 import java.io.IOException;
 import java.nio.IntBuffer;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 相机预览界面
  * Created by mao on 17-6-13.
  */
 
@@ -28,6 +28,8 @@ public class CameraView extends BaseCameraView {
     private MaoLog mLog = MaoLog.getLogger(getClass().getSimpleName());
 
     private Camera mCamera;
+
+    private boolean mIsRecording = false;
 
     public CameraView(Context context) {
         super(context);
@@ -40,7 +42,7 @@ public class CameraView extends BaseCameraView {
     @Override
     public List<CameraFilter> initFilters() {
         List<CameraFilter> filters = new ArrayList<>();
-        filters.add(new RedFilter());
+        filters.add(new SunriseFilter());
         return filters;
     }
 
@@ -120,10 +122,18 @@ public class CameraView extends BaseCameraView {
     }
 
     public void startRecording(String path) {
-
+        if (!mIsRecording) {
+            mIsRecording = true;
+        }
     }
 
     public void stopRecording() {
+        if (mIsRecording) {
+            mIsRecording = false;
+        }
+    }
 
+    public interface ICaptureCallback {
+        void onCapture(Bitmap bitmap);
     }
 }

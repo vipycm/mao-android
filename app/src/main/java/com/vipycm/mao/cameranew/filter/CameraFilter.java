@@ -3,7 +3,7 @@ package com.vipycm.mao.cameranew.filter;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.vipycm.mao.camera.OpenGlUtils;
+import com.vipycm.mao.cameranew.OpenGLUtils;
 
 import java.nio.FloatBuffer;
 
@@ -61,7 +61,7 @@ public class CameraFilter {
     }
 
     public void init() {
-        mProgram = OpenGlUtils.loadProgram(mVertexShaderCode, mFragmentShaderCode);
+        mProgram = OpenGLUtils.loadProgram(mVertexShaderCode, mFragmentShaderCode);
         mAPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
         mATextureCoordinateHandle = GLES20.glGetAttribLocation(mProgram, "aTextureCoordinate");
         mUTextureHandle = GLES20.glGetUniformLocation(mProgram, "uTexture");
@@ -105,7 +105,7 @@ public class CameraFilter {
         GLES20.glVertexAttribPointer(mATextureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, textureBuffer);
         GLES20.glEnableVertexAttribArray(mATextureCoordinateHandle);
 
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE_2D);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId);
         GLES20.glUniform1i(mUTextureHandle, 0);
 
@@ -116,6 +116,7 @@ public class CameraFilter {
         GLES20.glDisableVertexAttribArray(mAPositionHandle);
         GLES20.glDisableVertexAttribArray(mATextureCoordinateHandle);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+        OpenGLUtils.checkError("draw");
     }
 
     public void destroy() {
