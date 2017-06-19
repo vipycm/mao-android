@@ -115,6 +115,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (cameraGLItem == item) {
             fragment = new CameraGLFragment();
 
+        } else if (videoDecodeItem == item) {
+            fragment = new VideoDecodeFragment();
+
         } else if (faceDetectionItem == item) {
             FdActivity.start(this);
             return;
@@ -154,6 +157,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem faceDetectionItem = new FuncItem("face detection");
     static final FuncItem cameraItem = new FuncItem("camera");
     static final FuncItem cameraNewItem = new FuncItem("camera new");
+    static final FuncItem videoDecodeItem = new FuncItem("Video Decode");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -167,6 +171,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(faceDetectionItem);
         FUNC_ITEMS.add(cameraItem);
         FUNC_ITEMS.add(cameraNewItem);
+        FUNC_ITEMS.add(videoDecodeItem);
     }
 
     public static class FuncItem {
