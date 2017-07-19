@@ -100,7 +100,6 @@ public class VideoPlayer {
             return;
         }
         mediaCodec.configure(videoFormat, mOutSurface, null, 0);
-        mediaCodec.configure(videoFormat, null, null, 0);
         mediaCodec.start();
 
         mediaExtractor.selectTrack(videoTrackIndex);
