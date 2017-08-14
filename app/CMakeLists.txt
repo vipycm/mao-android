@@ -33,6 +33,8 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 
+find_library(z-lib  z)
+
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in the
 # build script, prebuilt third-party libraries, or system libraries.
@@ -49,33 +51,22 @@ add_library(yuv-decoder SHARED src/main/cpp/yuv-decoder.c)
 
 set(FFMPEG_PATH ${CMAKE_CURRENT_LIST_DIR}/src/main/cpp/ffmpeg)
 
-add_library(avcodec SHARED IMPORTED)
-set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libavcodec-57.so)
-
-add_library(avdevice SHARED IMPORTED)
-set_target_properties(avdevice PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libavdevice-57.so)
-
-add_library(avfilter SHARED IMPORTED)
-set_target_properties(avfilter PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libavfilter-6.so)
-
-add_library(avformat SHARED IMPORTED)
-set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libavformat-57.so)
-
-add_library(avutil SHARED IMPORTED)
-set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libavutil-55.so)
-
-add_library(postproc SHARED IMPORTED)
-set_target_properties(postproc PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libpostproc-54.so)
-
-add_library(swresample SHARED IMPORTED)
-set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libswresample-2.so)
-
-add_library(swscale SHARED IMPORTED)
-set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${FFMPEG_PATH}/lib/libswscale-4.so)
-
 # add my ffmpeg lib
 add_library(mao-ffmpeg SHARED src/main/cpp/mao-ffmpeg.cpp)
 
 include_directories(${FFMPEG_PATH}/include)
 
-target_link_libraries(mao-ffmpeg avcodec avdevice avfilter avformat avutil postproc swresample swscale ${log-lib})
+target_link_libraries(mao-ffmpeg
+    ${FFMPEG_PATH}/prebuilt/libavformat.a
+    ${FFMPEG_PATH}/prebuilt/libavcodec.a
+    ${FFMPEG_PATH}/prebuilt/libavdevice.a
+    ${FFMPEG_PATH}/prebuilt/libavfilter.a
+    ${FFMPEG_PATH}/prebuilt/libavutil.a
+    ${FFMPEG_PATH}/prebuilt/libpostproc.a
+    ${FFMPEG_PATH}/prebuilt/libswresample.a
+    ${FFMPEG_PATH}/prebuilt/libswscale.a
+    ${FFMPEG_PATH}/prebuilt/libfdk-aac.a
+    ${FFMPEG_PATH}/prebuilt/libmp3lame.a
+    ${FFMPEG_PATH}/prebuilt/libx264.a
+    ${z-lib}
+    ${log-lib})
