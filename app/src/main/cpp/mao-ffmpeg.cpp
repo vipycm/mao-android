@@ -6,53 +6,12 @@
 extern "C" {
 #endif
 
-#include "mao-ffmpeg.h"
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include <libavutil/imgutils.h>
 
 #define TAG_MAO_FFMPEG "mao-ffmpeg"
-
-static bool s_bInited = false;
-
-void init_ffmpeg() {
-    if (!s_bInited) {
-        av_log_set_callback(av_log_callback);
-        av_register_all();
-        avformat_network_init();
-        s_bInited = true;
-    }
-}
-
-void av_log_callback(void *, int level, const char *fmt, va_list vl) {
-    FILE *fp = fopen("/storage/emulated/0/av_log.txt", "a+");
-    if (fp) {
-        vfprintf(fp, fmt, vl);
-        fflush(fp);
-        fclose(fp);
-    }
-    /*
-    switch (level) {
-        case AV_LOG_TRACE:
-        case AV_LOG_VERBOSE:
-        case AV_LOG_DEBUG:
-            LOGD(TAG_MAO_FFMPEG, fmt, vl);
-            break;
-        case AV_LOG_INFO:
-            LOGI(TAG_MAO_FFMPEG, fmt, vl);
-            break;
-        case AV_LOG_WARNING:
-            LOGW(TAG_MAO_FFMPEG, fmt, vl);
-            break;
-        case AV_LOG_ERROR:
-            LOGE(TAG_MAO_FFMPEG, fmt, vl);
-            break;
-        default:
-            LOGI(TAG_MAO_FFMPEG, fmt, vl);
-            break;
-    }*/
-}
 
 void getVideoInfo() {
     const char *path = "/storage/emulated/0/mao/1493086440578.mp4";
@@ -69,11 +28,6 @@ void getVideoInfo() {
 
     av_dump_format(pFormatCtx, 0, pFormatCtx->filename, 0);
 }
-
-JNIEXPORT void Java_com_vipycm_mao_jni_FFMpeg_init(JNIEnv *, jobject) {
-    init_ffmpeg();
-}
-
 
 JNIEXPORT void Java_com_vipycm_mao_jni_FFMpeg_test(JNIEnv *, jobject) {
     getVideoInfo();
@@ -107,9 +61,6 @@ JNIEXPORT jint JNICALL Java_com_vipycm_mao_jni_FFMpeg_decode(JNIEnv *env, jobjec
     char info[1000] = {0};
     sprintf(input_str, "%s", env->GetStringUTFChars(input_jstr, NULL));
     sprintf(output_str, "%s", env->GetStringUTFChars(output_jstr, NULL));
-
-    //FFmpeg av_log() callback
-    av_log_set_callback(av_log_callback);
 
     av_register_all();
     avformat_network_init();

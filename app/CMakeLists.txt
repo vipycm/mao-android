@@ -51,12 +51,17 @@ add_library(yuv-decoder SHARED src/main/cpp/yuv-decoder.c)
 
 set(FFMPEG_PATH ${CMAKE_CURRENT_LIST_DIR}/src/main/cpp/ffmpeg)
 
-# add my ffmpeg lib
-add_library(mao-ffmpeg SHARED src/main/cpp/mao-ffmpeg.cpp)
+# add my media lib
+add_library(mao-media SHARED
+    src/main/cpp/util/JniDataType.cpp
+    src/main/cpp/media/MediaLibraryJni.cpp
+    src/main/cpp/media/AudioDecoderJni.cpp
+    src/main/cpp/media/AudioDecoder.cpp
+    src/main/cpp/mao-ffmpeg.cpp)
 
 include_directories(${FFMPEG_PATH}/include)
 
-target_link_libraries(mao-ffmpeg
+target_link_libraries(mao-media
     ${FFMPEG_PATH}/prebuilt/libavformat.a
     ${FFMPEG_PATH}/prebuilt/libavcodec.a
     ${FFMPEG_PATH}/prebuilt/libavdevice.a

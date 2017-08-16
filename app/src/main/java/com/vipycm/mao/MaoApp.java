@@ -1,10 +1,12 @@
 package com.vipycm.mao;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.hack.MaoHack;
+import com.vipycm.mao.media.MediaLibrary;
 
 /**
  * MaoApp
@@ -14,6 +16,7 @@ public class MaoApp extends Application {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 
+    @SuppressLint("StaticFieldLeak")
     private static Context mContext;
 
     @Override
@@ -22,6 +25,7 @@ public class MaoApp extends Application {
         mContext = getBaseContext();
         MaoLog.initLog();
         log.d("onCreate");
+        MediaLibrary.init();
     }
 
     @Override

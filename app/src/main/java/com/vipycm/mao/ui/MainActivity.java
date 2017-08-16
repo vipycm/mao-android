@@ -118,6 +118,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (videoPlayItem == item) {
             fragment = new VideoPlayFragment();
 
+        } else if (audioDecoderItem == item) {
+            fragment = new AudioDecoderFragment();
+
         } else if (faceDetectionItem == item) {
             FdActivity.start(this);
             return;
@@ -158,6 +161,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem cameraItem = new FuncItem("camera");
     static final FuncItem cameraNewItem = new FuncItem("camera new");
     static final FuncItem videoPlayItem = new FuncItem("Video Play");
+    static final FuncItem audioDecoderItem = new FuncItem("Audio Play");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -172,6 +176,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(cameraItem);
         FUNC_ITEMS.add(cameraNewItem);
         FUNC_ITEMS.add(videoPlayItem);
+        FUNC_ITEMS.add(audioDecoderItem);
     }
 
     public static class FuncItem {
