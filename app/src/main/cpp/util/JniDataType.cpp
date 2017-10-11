@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+#include <string.h>
 #include "JniDataType.h"
 
 JniString::JniString(JNIEnv *env, jstring jniStr) : mEnv(env), mJniStr(jniStr), mConstCharPtr(NULL) {
