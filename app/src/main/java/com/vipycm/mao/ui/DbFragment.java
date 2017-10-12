@@ -1,13 +1,14 @@
 package com.vipycm.mao.ui;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.R;
+import com.vipycm.mao.databinding.FragmentSampleBinding;
 import com.vipycm.mao.db.DaoFactory;
 import com.vipycm.mao.db.UserDao;
 import com.vipycm.mao.model.User;
@@ -23,15 +24,15 @@ public class DbFragment extends MaoFragment {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 
-    TextView txt_content;
+    private FragmentSampleBinding mDataBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         log.i("onCreateView");
-        View rootView = inflater.inflate(R.layout.fragment_sample, container, false);
-        txt_content = (TextView) rootView.findViewById(R.id.txt_content);
-        txt_content.setText(this.getClass().getSimpleName());
-        return rootView;
+        mDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_sample, container, false);
+        mDataBinding.setHandler(this);
+        mDataBinding.txtContent.setText(this.getClass().getSimpleName());
+        return mDataBinding.getRoot();
     }
 
     @Override
@@ -63,7 +64,7 @@ public class DbFragment extends MaoFragment {
                 userDao.update(u);
                 //find
                 List<User> users = userDao.findAll();
-                txt_content.setText("user count:" + users.size());
+                mDataBinding.txtContent.setText("user count:" + users.size());
                 log.i(users.toString());
         }
     }

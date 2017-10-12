@@ -1,6 +1,7 @@
 package com.vipycm.mao.ui;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.R;
+import com.vipycm.mao.databinding.FragmentMainBinding;
 import com.vipycm.mao.ui.MainActivity.FuncItem;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class MainFragment extends MaoFragment {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 
+    private FragmentMainBinding mFragmentMainBinding;
     private OnMainFragmentInteraction mListener;
 
     private int mColumnCount = 2;
@@ -36,22 +39,18 @@ public class MainFragment extends MaoFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mFragmentMainBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener));
+        RecyclerView recyclerView = mFragmentMainBinding.list;
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
         }
-        return view;
+        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(mListener));
+
+        return mFragmentMainBinding.getRoot();
     }
 
     @Override

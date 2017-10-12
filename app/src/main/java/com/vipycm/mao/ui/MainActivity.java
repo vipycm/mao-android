@@ -1,6 +1,7 @@
 package com.vipycm.mao.ui;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -30,16 +31,14 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     protected void onCreate(Bundle savedInstanceState) {
         log.i("onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        if (findViewById(R.id.fragment_container) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            MainFragment mainFragment = new MainFragment();
-            mainFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
+        if (savedInstanceState != null) {
+            return;
         }
+        MainFragment mainFragment = new MainFragment();
+        mainFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mainFragment).commit();
     }
 
     @Override

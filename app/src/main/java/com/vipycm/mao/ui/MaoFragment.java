@@ -9,8 +9,9 @@ import android.view.View;
  * Created by mao on 17-3-13.
  */
 
-public class MaoFragment extends Fragment {
+public class MaoFragment extends Fragment implements IMaoHandler {
 
+    @Override
     public void onMaoClick(View v) {
 
     }

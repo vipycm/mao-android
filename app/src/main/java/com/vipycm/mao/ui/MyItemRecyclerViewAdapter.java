@@ -1,5 +1,6 @@
 package com.vipycm.mao.ui;
 
+import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.vipycm.mao.R;
+import com.vipycm.mao.databinding.ItemFuncBinding;
 import com.vipycm.mao.ui.MainActivity.FuncItem;
 import com.vipycm.mao.ui.MainFragment.OnMainFragmentInteraction;
 
@@ -28,17 +30,16 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_func, parent, false);
-        return new ViewHolder(view);
+        ItemFuncBinding itemFuncBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_func, parent, false);
+        return new ViewHolder(itemFuncBinding);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mBtnFuncItem.setText(mValues.get(position).name);
-
-        holder.mBtnFuncItem.setOnClickListener(new View.OnClickListener() {
+        Button btnFuncItem = holder.mItemFuncBinding.btnFuncItem;
+        btnFuncItem.setText(mValues.get(position).name);
+        btnFuncItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
@@ -56,19 +57,17 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final Button mBtnFuncItem;
+        public final ItemFuncBinding mItemFuncBinding;
         public FuncItem mItem;
 
-        public ViewHolder(View view) {
-            super(view);
-            mView = view;
-            mBtnFuncItem = (Button) view.findViewById(R.id.btn_func_item);
+        public ViewHolder(ItemFuncBinding itemFuncBinding) {
+            super(itemFuncBinding.getRoot());
+            mItemFuncBinding = itemFuncBinding;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mBtnFuncItem.getText() + "'";
+            return super.toString() + " '" + mItemFuncBinding.btnFuncItem.getText() + "'";
         }
     }
 }

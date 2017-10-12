@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -11,10 +12,10 @@ import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.vipycm.commons.MaoLog;
 import com.vipycm.mao.R;
+import com.vipycm.mao.databinding.FragmentSampleBinding;
 
 import java.lang.reflect.Method;
 
@@ -22,21 +23,20 @@ import java.lang.reflect.Method;
  * PmFragment
  * Created by mao on 2017/1/16.
  */
-public class PmFragment extends MaoFragment{
+public class PmFragment extends MaoFragment {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
 
-    Handler mHandler = null;
-    TextView txt_content;
+    private FragmentSampleBinding mDataBinding;
+    private Handler mHandler = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         log.i("onCreateView");
-        View rootView = inflater.inflate(R.layout.fragment_sample, container, false);
-        txt_content = (TextView) rootView.findViewById(R.id.txt_content);
-        txt_content.setText(this.getClass().getSimpleName());
-        mHandler = new Handler();
-        return rootView;
+        mDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_sample, container, false);
+        mDataBinding.setHandler(this);
+        mDataBinding.txtContent.setText(this.getClass().getSimpleName());
+        return mDataBinding.getRoot();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class PmFragment extends MaoFragment{
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            txt_content.setText(sb);
+                            mDataBinding.txtContent.setText(sb);
                         }
                     });
 
