@@ -126,6 +126,9 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (scrollItem == item) {
             fragment = new ScrollFragment();
 
+        } else if (paletteItem == item) {
+            fragment = new PaletteFragment();
+
         } else if (faceDetectionItem == item) {
             FdActivity.start(this);
             return;
@@ -169,6 +172,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem audioDecoderItem = new FuncItem("Audio Play");
     static final FuncItem captureItem = new FuncItem("Capture");
     static final FuncItem scrollItem = new FuncItem("Scroll");
+    static final FuncItem paletteItem = new FuncItem("Palette");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -186,6 +190,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(audioDecoderItem);
         FUNC_ITEMS.add(captureItem);
         FUNC_ITEMS.add(scrollItem);
+        FUNC_ITEMS.add(paletteItem);
     }
 
     public static class FuncItem {

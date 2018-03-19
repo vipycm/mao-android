@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/common_google_signin_btn_icon_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dominant"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Dominant"
+            app:layout_constraintEnd_toStartOf="@+id/vibrant"
+            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+        <TextView
+            android:id="@+id/vibrant"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Vibrant"
+            app:layout_constraintEnd_toStartOf="@+id/vibrant_dark"
+            app:layout_constraintStart_toEndOf="@+id/dominant"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+        <TextView
+            android:id="@+id/vibrant_dark"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Vibrant dark"
+            app:layout_constraintEnd_toStartOf="@+id/vibrant_light"
+            app:layout_constraintStart_toEndOf="@+id/vibrant"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+        <TextView
+            android:id="@+id/vibrant_light"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Vibrant light"
+            app:layout_constraintEnd_toEndOf="@+id/muted"
+            app:layout_constraintStart_toEndOf="@+id/vibrant_dark"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+        <TextView
+            android:id="@+id/muted"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Muted"
+            app:layout_constraintEnd_toStartOf="@+id/muted_dark"
+            app:layout_constraintStart_toEndOf="@+id/vibrant_light"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+        <TextView
+            android:id="@+id/muted_dark"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Muted dark"
+            app:layout_constraintEnd_toStartOf="@+id/muted_light"
+            app:layout_constraintStart_toEndOf="@+id/muted"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+        <TextView
+            android:id="@+id/muted_light"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="Muted light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/muted_dark"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
