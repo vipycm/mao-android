@@ -24,7 +24,7 @@ public class SunriseFilter extends CameraFilter {
     private int mToneCurveTextureUniformLocation;
 
     public SunriseFilter() {
-        super(NO_FILTER_VERTEX_SHADER_CODE, FileUtils.readRaw(R.raw.fs_sunrise));
+        super(NO_FILTER_VERTEX_SHADER_CODE, FileUtils.readRawToString(R.raw.fs_sunrise));
     }
 
     public void destroy() {
@@ -162,10 +162,10 @@ public class SunriseFilter extends CameraFilter {
         }
         GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, 256, 2, 0, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, ByteBuffer.wrap(arrayOfByte));
         GLES20.glActiveTexture(GLES20.GL_TEXTURE4);
-        mMaskGrey1TextureId = OpenGLUtils.loadTexture(FileUtils.readBitmapFromAssets("filter/amaro_mask1.jpg"));
+        mMaskGrey1TextureId = OpenGLUtils.loadTexture(FileUtils.readAssetToBitmap("filter/amaro_mask1.jpg"));
         GLES20.glActiveTexture(GLES20.GL_TEXTURE5);
-        mMaskGrey2TextureId = OpenGLUtils.loadTexture(FileUtils.readBitmapFromAssets("filter/amaro_mask2.jpg"));
+        mMaskGrey2TextureId = OpenGLUtils.loadTexture(FileUtils.readAssetToBitmap("filter/amaro_mask2.jpg"));
         GLES20.glActiveTexture(GLES20.GL_TEXTURE6);
-        mMaskGrey3TextureId = OpenGLUtils.loadTexture(FileUtils.readBitmapFromAssets("filter/toy_mask1.jpg"));
+        mMaskGrey3TextureId = OpenGLUtils.loadTexture(FileUtils.readAssetToBitmap("filter/toy_mask1.jpg"));
     }
 }

@@ -68,7 +68,7 @@ public class CameraActivity extends Activity {
                 @Override
                 public void onCapture(Bitmap bitmap) {
                     String path = mSavePath + System.currentTimeMillis() + ".jpg";
-                    FileUtils.saveImage(path, bitmap);
+                    FileUtils.saveBitmapToFile(bitmap, path);
                     log.i("onCapture:" + path);
                 }
             });
