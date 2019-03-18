@@ -99,14 +99,8 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         } else if (helloJniItem == item) {
             fragment = new HelloJniFragment();
 
-        } else if (pmItem == item) {
-            fragment = new PmFragment();
-
         } else if (dsItem == item) {
             fragment = new DsFragment();
-
-        } else if (billItem == item) {
-            fragment = new BillingFragment();
 
         } else if (camera2Item == item) {
             fragment = new Camera2Fragment();
@@ -160,9 +154,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     //定义功能项
     static final FuncItem dbItem = new FuncItem("db");
     static final FuncItem helloJniItem = new FuncItem("hello jni");
-    static final FuncItem pmItem = new FuncItem("pm");
     static final FuncItem dsItem = new FuncItem("DS");
-    static final FuncItem billItem = new FuncItem("billing");
     static final FuncItem camera2Item = new FuncItem("camera2");
     static final FuncItem cameraGLItem = new FuncItem("cameraGL");
     static final FuncItem faceDetectionItem = new FuncItem("face detection");
@@ -178,9 +170,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static {
         FUNC_ITEMS.add(dbItem);
         FUNC_ITEMS.add(helloJniItem);
-        FUNC_ITEMS.add(pmItem);
         FUNC_ITEMS.add(dsItem);
-        FUNC_ITEMS.add(billItem);
         FUNC_ITEMS.add(camera2Item);
         FUNC_ITEMS.add(cameraGLItem);
         FUNC_ITEMS.add(faceDetectionItem);
