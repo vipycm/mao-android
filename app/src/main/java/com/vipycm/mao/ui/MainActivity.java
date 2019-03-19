@@ -135,6 +135,10 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
             com.vipycm.mao.cameranew.CameraActivity.start(this);
             return;
 
+        } else if (webItem == item) {
+            WebActivity.open(this);
+            return;
+
         }
 
         if (fragment != null) {
@@ -165,6 +169,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
     static final FuncItem captureItem = new FuncItem("Capture");
     static final FuncItem scrollItem = new FuncItem("Scroll");
     static final FuncItem paletteItem = new FuncItem("Palette");
+    static final FuncItem webItem = new FuncItem("WebView");
 
     //将功能项加入到FUNC_ITEMS
     static {
@@ -181,6 +186,7 @@ public class MainActivity extends FragmentActivity implements OnMainFragmentInte
         FUNC_ITEMS.add(captureItem);
         FUNC_ITEMS.add(scrollItem);
         FUNC_ITEMS.add(paletteItem);
+        FUNC_ITEMS.add(webItem);
     }
 
     public static class FuncItem {
