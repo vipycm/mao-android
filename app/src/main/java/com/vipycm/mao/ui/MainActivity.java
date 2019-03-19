@@ -3,8 +3,8 @@ package com.vipycm.mao.ui;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.vipycm.commons.MaoLog;
@@ -21,7 +21,7 @@ import java.util.List;
  * MainActivity
  * Created by mao on 16-12-29.
  */
-public class MainActivity extends FragmentActivity implements OnMainFragmentInteraction {
+public class MainActivity extends AppCompatActivity implements OnMainFragmentInteraction {
 
     private MaoLog log = MaoLog.getLogger(this.getClass().getSimpleName());
     private static final List<FuncItem> FUNC_ITEMS = new ArrayList<>();
